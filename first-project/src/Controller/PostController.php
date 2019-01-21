@@ -11,7 +11,9 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 
 class PostController extends AbstractController
 {
@@ -29,14 +31,25 @@ class PostController extends AbstractController
         return $this->render("Post/index.html.twig", $params);
     }
 
-    public function addAction()
+    public function addAction(Request $request)
     {
         $post = new Post();
         $form = $this->createFormBuilder($post)
             ->add('title', TextType::class)
             ->add('content', TextType::class)
             ->add('author', TextType::class)
+            ->add('submit', SubmitType::class)
             ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $post = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($post);
+            $entityManager->flush();
+            return $this->redirectToRoute("index");
+        }
 
         return $this->render("Post/add.html.twig", ['form' => $form->createView()]);
     }
