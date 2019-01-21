@@ -11,7 +11,7 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PostController extends AbstractController
 {
@@ -32,15 +32,13 @@ class PostController extends AbstractController
     public function addAction()
     {
         $post = new Post();
-        $post->setTitle("Les chats mangeurs de pinguins");
-        $post->setContent("Y'a des chats qui bouffent des pinguis omg trop bien lol");
-        $post->setAuthor("Isaac Newton");
+        $form = $this->createFormBuilder($post)
+            ->add('title', TextType::class)
+            ->add('content', TextType::class)
+            ->add('author', TextType::class)
+            ->getForm();
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($post);
-        $entityManager->flush();
-
-        return new Response("coucoucoucoucouc");
+        return $this->render("Post/add.html.twig", ['form' => $form->createView()]);
     }
 
     public function showAction(Post $post)
