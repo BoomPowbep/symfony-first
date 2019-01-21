@@ -17,12 +17,13 @@ class PostController extends AbstractController
 {
     public function indexAction()
     {
-        $post = new Post();
-        $post->setTitle("Les pinguins d'Alaska");
+        $repository = $this->getDoctrine()->getRepository(Post::class);
+
+        $posts = $repository->findAll();
 
         $params = [
             "toto" => "Salut",
-            "post" => $post
+            "posts" => $posts
         ];
 
         return $this->render("Post/index.html.twig", $params);
