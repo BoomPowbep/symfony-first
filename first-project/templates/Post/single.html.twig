@@ -3,5 +3,7 @@
     <h1>{{ post.title }}</h1>
     <p>{{ post.author }}</p>
     <p>{{ post.content }}</p>
+    <a href="{{ path('edit', { 'id' : post.id }) }}">Edit</a>
+    <a href="{{ path('delete', { 'id' : post.id }) }}">Delete</a>
     <a href="{{ path('index') }}">Retour</a>
 {% endblock %}

@@ -10,6 +10,7 @@ namespace App\Controller;
 
 
 use App\Entity\Post;
+use App\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -34,16 +35,11 @@ class PostController extends AbstractController
     public function addAction(Request $request)
     {
         $post = new Post();
-        $form = $this->createFormBuilder($post)
-            ->add('title', TextType::class)
-            ->add('content', TextType::class)
-            ->add('author', TextType::class)
-            ->add('submit', SubmitType::class)
-            ->getForm();
+        $form = $this->createForm(PostType::class, $post);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $post = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($post);
@@ -52,6 +48,32 @@ class PostController extends AbstractController
         }
 
         return $this->render("Post/add.html.twig", ['form' => $form->createView()]);
+    }
+
+    public function editAction(Request $request, Post $post)
+    {
+        $form = $this->createForm(PostType::class, $post);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $post = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($post);
+            $entityManager->flush();
+            return $this->redirectToRoute("index");
+        }
+
+        return $this->render("Post/add.html.twig", ['form' => $form->createView()]);
+    }
+
+    public function deleteAction(Request $request, Post $post)
+    {
+        $form = $this->createFormBuilder()
+            ->add('submit', SubmitType::class)
+            ->getForm();
+
+
     }
 
     public function showAction(Post $post)

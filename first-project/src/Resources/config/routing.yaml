@@ -12,3 +12,13 @@ view:
   path: posts/view/{id}
   defaults:
     _controller: App\Controller\PostController::showAction
+
+edit:
+  path: posts/edit/{id}
+  defaults:
+    _controller: App\Controller\PostController::editAction
+
+delete:
+  path: posts/delete/{id}
+  defaults:
+    _controller: App\Controller\PostController::deleteAction
