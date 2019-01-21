@@ -7,3 +7,8 @@ add:
   path: posts/add
   defaults:
     _controller: App\Controller\PostController::addAction
+
+view:
+  path: posts/view/{id}
+  defaults:
+    _controller: App\Controller\PostController::showAction

@@ -29,7 +29,8 @@ class PostController extends AbstractController
         return $this->render("Post/index.html.twig", $params);
     }
 
-    public function addAction() {
+    public function addAction()
+    {
         $post = new Post();
         $post->setTitle("Les chats mangeurs de pinguins");
         $post->setContent("Y'a des chats qui bouffent des pinguis omg trop bien lol");
@@ -40,5 +41,12 @@ class PostController extends AbstractController
         $entityManager->flush();
 
         return new Response("coucoucoucoucouc");
+    }
+
+    public function showAction($id)
+    {
+        $repository = $this->getDoctrine()->getRepository(Post::class);
+        $repo = $repository->findOneBy(['id' => $id]);
+        return $this->render("Post/single.html.twig", ['post' => $repo]);
     }
 }
