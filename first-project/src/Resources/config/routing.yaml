@@ -1,0 +1,9 @@
+index:
+  path: posts
+  defaults:
+    _controller: App\Controller\PostController::indexAction
+
+add:
+  path: posts/add
+  defaults:
+    _controller: App\Controller\PostController::addAction
