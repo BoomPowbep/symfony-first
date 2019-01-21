@@ -3,7 +3,7 @@
     <p>coucou 🛡 💽 🚝 🍺</p>
     <p>{{ toto }}</p>
     {% for post in posts %}
-        <h1>{{ post.title }}</h1>
+        <a href="{{ path('view', { 'id' : post.id }) }}"><h1>{{ post.title }}</h1></a>
         <p>{{ post.author }}</p>
         <p>{{ post.content }}</p>
         <hr>

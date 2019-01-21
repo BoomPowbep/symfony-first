@@ -43,10 +43,8 @@ class PostController extends AbstractController
         return new Response("coucoucoucoucouc");
     }
 
-    public function showAction($id)
+    public function showAction(Post $post)
     {
-        $repository = $this->getDoctrine()->getRepository(Post::class);
-        $repo = $repository->findOneBy(['id' => $id]);
-        return $this->render("Post/single.html.twig", ['post' => $repo]);
+        return $this->render("Post/single.html.twig", ['post' => $post]);
     }
 }
